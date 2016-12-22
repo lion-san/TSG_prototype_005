@@ -324,8 +324,8 @@ void pushMotionData()
 
       updateMotionSensors();
           
-      motionData += "$MOTION"; 
-      motionData += ",";
+      //motionData += "$MOTION"; 
+      //motionData += ",";
     
       motionData += dt; 
       motionData += ",";
