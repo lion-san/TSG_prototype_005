@@ -37,8 +37,8 @@
 #define TX 9                            //GPS用のソフトウェアシリアル
 #define SENTENCES_BUFLEN      128        // GPSのメッセージデータバッファの個数
 
-#define UPDATE_INTERVAL        50       //モーションセンサーの値取得間隔
-#define DATAPUSH_INTERVAL     200       //モーションセンサーの値記録間隔
+//#define UPDATE_INTERVAL        50       //モーションセンサーの値取得間隔
+//#define DATAPUSH_INTERVAL     200       //モーションセンサーの値記録間隔
 
 //-------------------------------------------------------------------------
 //[Global valiables]
@@ -71,19 +71,19 @@ volatile unsigned long time;
 
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-unsigned long delta;
+//unsigned long delta;
 
-unsigned long delta1;
-unsigned long delta2;
-void test(String s)
-{
-  Serial.print(millis() - delta);
-  Serial.print("::DEBUG:");
-  Serial.println(s);
+//unsigned long delta1;
+//unsigned long delta2;
+//void test(String s)
+//{
+//  Serial.print(millis() - delta);
+//  Serial.print("::DEBUG:");
+//  Serial.println(s);
 
-  delta = millis();
+//  delta = millis();
   
-}
+//}
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
@@ -130,9 +130,9 @@ void setup(void) {
   //=======================================================
   
   //DEBUG
-  delta = millis();
-  delta1 = millis();
-  delta2 = millis();
+  //delta = millis();
+  //delta1 = millis();
+  //delta2 = millis();
 
   time = 0;
 }
