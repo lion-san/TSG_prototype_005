@@ -57,6 +57,7 @@ boolean switchIs;
 boolean switchOn;
 boolean switchRelease;
 
+char fileName[16];
 
 volatile boolean enableWrite = false;
 
@@ -195,7 +196,7 @@ void sdcardOpen()
   // ファイル名決定
   String s;
   int fileNum = 0;
-  char fileName[16];
+
   
   while(1){
     s = "LOG";
@@ -212,14 +213,6 @@ void sdcardOpen()
   }
 
 
-  dataFile = SD.open(fileName, FILE_WRITE);
-
-  if(dataFile){
-    Serial.println(fileName);
-    sdOpened = true;
-  }
-  else
-    Serial.println("fileError");
 
 }
 
@@ -242,24 +235,31 @@ void sdcardClose()
 void writeDataToSdcard()
 {
 
-  //File dataFile = SD.open("datalog.txt", FILE_WRITE);
+  //file open
+  dataFile = SD.open(fileName, FILE_WRITE);
+
 
   // if the file is available, write to it:
   if (dataFile) {
+
+    sdOpened = true;
     
     dataFile.print(motionData);
 
-    //dataFile.close();
+    dataFile.close();
     
     Serial.println(motionData);
 
+    //file close
+    dataFile.close();
+    //sdOpened = false;
 
     //クリア
     motionData = "";;
   }
   // if the file isn't open, pop up an error:
   else {
-    Serial.println(F("error opening datalog.txt"));
+     Serial.println("fileError");
   }
 
 }
