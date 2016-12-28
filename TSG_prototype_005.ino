@@ -21,7 +21,6 @@
 #include <LSM9DS1_Registers.h>
 #include <LSM9DS1_Types.h>
 #include <SoftwareSerial.h>
-#include <MsTimer2.h>            //https://github.com/PaulStoffregen/MsTimer2
 
 
 //#define ADAddr 0x48//
@@ -37,8 +36,6 @@
 #define TX 9                            //GPS用のソフトウェアシリアル
 #define SENTENCES_BUFLEN      128        // GPSのメッセージデータバッファの個数
 
-//#define UPDATE_INTERVAL        50       //モーションセンサーの値取得間隔
-//#define DATAPUSH_INTERVAL     200       //モーションセンサーの値記録間隔
 
 //-------------------------------------------------------------------------
 //[Global valiables]
@@ -70,21 +67,6 @@ volatile unsigned long time;
 ////////////////////////////////////////////////////////////////
 
 
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//unsigned long delta;
-
-//unsigned long delta1;
-//unsigned long delta2;
-//void test(String s)
-//{
-//  Serial.print(millis() - delta);
-//  Serial.print("::DEBUG:");
-//  Serial.println(s);
-
-//  delta = millis();
-  
-//}
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
 void setup(void) {
@@ -122,17 +104,8 @@ void setup(void) {
   //=======================================================
 
 
-  //===MotionSensorのタイマー化 =================
-  delay(100);
+
   motionData = "";
-  //MsTimer2::set(100, updateMotionSensors);
-  //MsTimer2::start();
-  //=======================================================
-  
-  //DEBUG
-  //delta = millis();
-  //delta1 = millis();
-  //delta2 = millis();
 
   time = 0;
 }
@@ -197,7 +170,7 @@ void loop(void) {
   //START MotionSensor ============================================
 
 
-    pushMotionData();
+  pushMotionData();
 
   
   //END MotionSensor ============================================
@@ -326,25 +299,29 @@ void pushMotionData()
       motionData += dt; 
       motionData += ",";
     
-      motionData += imu.ax;
+
+      //[g]
+      motionData += imu.calcAccel(imu.ax);
       motionData += ",";
-      motionData += imu.ay;
+      motionData += imu.calcAccel(imu.ay);
       motionData += ",";
-      motionData += imu.az;
+      motionData += imu.calcAccel(imu.az);
       motionData += ",";
-    
-      motionData += imu.gx;
+
+      //[deg/s]
+      motionData += imu.calcGyro(imu.gx);
       motionData += ",";
-      motionData += imu.gy;
+      motionData += imu.calcGyro(imu.gy);
       motionData += ",";
-      motionData += imu.gz;
+      motionData += imu.calcGyro(imu.gz);
       motionData += ",";
-      
-      motionData += imu.mx;
+
+      //[gauss]
+      motionData += imu.calcMag(imu.mx);
       motionData += ",";
-      motionData += imu.my;
+      motionData += imu.calcMag(imu.my);
       motionData += ",";
-      motionData += imu.mz;
+      motionData += imu.calcMag(imu.mz);
     
     
       motionData += "\n";
